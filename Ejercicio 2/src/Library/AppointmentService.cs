@@ -5,16 +5,16 @@ namespace Library
 {
     public class AppointmentService
     {
-        public static string CreateAppointment(string name, string id, string phoneNumber, DateTime date, string appoinmentPlace, string doctorName)
+        public static string CreateAppointment(Paciente paciente, string id, DateTime date, string appoinmentPlace, Doctor doctor)
         {
             StringBuilder stringBuilder = new StringBuilder("Scheduling appointment...\n");
             Boolean isValid = true;
-
-            if (string.IsNullOrEmpty(name))
-            {
-                stringBuilder.Append("Unable to schedule appointment, 'name' is required\n");
+            
+           if(paciente==null)
+           {
+                stringBuilder.Append("Unable to schedule appointment, 'paciente' is required\n");
                 isValid = false;
-            }
+           }
 
             if (string.IsNullOrEmpty(id))
             {
@@ -22,11 +22,7 @@ namespace Library
                 isValid = false;
             }
 
-            if (string.IsNullOrEmpty(phoneNumber))
-            {
-                stringBuilder.Append("Unable to schedule appointment, 'phone number' is required\n");
-                isValid = false;
-            }
+            
 
             if (string.IsNullOrEmpty(appoinmentPlace))
             {
@@ -35,9 +31,9 @@ namespace Library
             }
 
 
-            if (string.IsNullOrEmpty(doctorName))
+            if (doctor==null)
             {
-                stringBuilder.Append("Unable to schedule appointment, 'doctor name' is required\n");
+                stringBuilder.Append("Unable to schedule appointment, 'doctor' is required\n");
                 isValid = false;
             }
 
@@ -48,6 +44,59 @@ namespace Library
 
             return stringBuilder.ToString();
         }
+    }
+    public class Paciente{
+        private string name;
+        private string phoneNumber;
 
+        public Paciente(string name,string phoneNumber){
+            Name=name;
+            PhoneNumber=phoneNumber;
+        }
+        public string Name{
+            get{return name;}
+            set{
+                if(string.IsNullOrEmpty(value))
+                {
+                    throw new ApplicationException("Paciente, 'name' is required\n");
+                }
+                name=value;
+            }
+        }
+        public string PhoneNumber
+        {
+            get{
+                return phoneNumber;
+            }
+            set{
+                if (string.IsNullOrEmpty(phoneNumber))
+                {
+                    throw new ApplicationException("Paciente, 'phone number' is required\n");
+                }
+            }
+        }
+    }
+
+    public class Doctor
+    {
+        private string name;
+
+        public Doctor(string name)
+        {
+            Name=name;
+        }
+
+        public string Name{
+            get{
+                return name;
+            }
+            set{
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ApplicationException("Doctor, 'name' is required\n");
+                }
+                name=value;
+            }
+        }     
     }
 }
